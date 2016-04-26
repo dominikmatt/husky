@@ -85,12 +85,7 @@ define([], function() {
             var config = this.sandbox.util.extend(false, {}, this.options);
 
             if (!config.toolbar) {
-                config.toolbar = [
-                    {name: 'semantics', items: ['Format']},
-                    {name: 'basicstyles', items: ['Superscript', 'Subscript', 'Italic', 'Bold', 'Underline', 'Strike']},
-                    {name: 'blockstyles', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']},
-                    {name: 'list', items: ['NumberedList', 'BulletedList']}
-                ];
+                config.toolbar = this.sandbox.ckeditor.getToolbar();
             }
 
             // activate paste from Word

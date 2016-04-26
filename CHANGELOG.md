@@ -1,6 +1,7 @@
 # CHANGELOG for husky
 
 * dev-develop
+    * FEATURE     #643 Added ckeditor plugin registry
     * BUGFIX      #633 Removed bound effect respectively additional scrollbar
 
 * 0.19.0 (2016-04-12)

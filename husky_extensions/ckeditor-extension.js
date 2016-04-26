@@ -33,7 +33,6 @@
                 removeButtons: '',
                 removePlugins: 'elementspath,magicline',
                 removeDialogTabs: 'image:advanced;link:advanced',
-                extraPlugins: 'justify,format,sourcearea,link,table,pastefromword,autogrow',
                 extraAllowedContent: 'img(*)[*]; span(*)[*]; div(*)[*]',
                 resize_enabled: false,
                 enterMode: 'P',
@@ -48,13 +47,38 @@
 
             initialize: function(app) {
 
+                var toolbar = {
+                        semantics: ['Format'],
+                        basicstyles: ['Superscript', 'Subscript', 'Italic', 'Bold', 'Underline', 'Strike'],
+                        blockstyles: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                        list: ['NumberedList', 'BulletedList']
+                    },
+                    plugins = ['justify', 'format', 'sourcearea', 'link', 'table', 'pastefromword', 'autogrow'];
+
                 app.sandbox.ckeditor = {
+
+                    addPlugin: function(toolbarName, button, name, plugin) {
+                        if (!toolbar[toolbarName]) {
+                            toolbar[toolbarName] = [];
+                        }
+
+                        toolbar[toolbarName].push(button);
+                        plugins.push(name);
+
+                        CKEDITOR.plugins.add(name, plugin);
+                    },
+
+                    getToolbar: function() {
+                        return _.map(toolbar, function(items, name) {
+                            return {name: name, items: items};
+                        });
+                    },
 
                     // callback when editor is ready
                     init: function(selector, callback, config) {
+                        var configuration = app.sandbox.util.extend(true, {}, getConfig.call(), config), $editor;
+                        configuration.extraPlugins = plugins.join(',');
 
-                        var configuration = app.sandbox.util.extend(true, {}, getConfig.call(), config),
-                            $editor;
                         if (!!callback && typeof callback === 'function') {
                             $editor = $(selector).ckeditor(callback, configuration);
                         } else {
@@ -128,7 +152,5 @@
             }
 
         };
-
-
     });
 })();
